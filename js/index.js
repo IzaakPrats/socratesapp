@@ -91,23 +91,29 @@ function closeSession() {
 
 // Function called when clicking on a session to view it.
 function setSession(id, name, creator) {
+  // Create connection to FireBase for the specific session
+  currentSessionRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/" + id);
 
+  if(localStorage.user_id != currentSessionRef.key()) {
   // Ask person to enter their name
-  var person = prompt("Please enter your name", "Harry Potter");
+    var person = prompt("Please enter your name", "Harry Potter");
+  }
 
+  //console.log(localStorage.user_id == currentSessionRef.key());
   // As long as the user entered a name
-  if (person != null){
-    // Create connection to FireBase for the specific session
-    currentSessionRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/" + id);
+  if (person != null || localStorage.user_id == currentSessionRef.key()) {
+
     // Set the respective name and creator texts to their elements
     document.getElementById("sessionTitle").innerHTML = name;
     document.getElementById("sessionCreator").innerHTML = creator;
 
     // Set new user
-    currentUserRef = currentSessionRef.child("users").push();
-    currentUserRef.set({
-      name: person
-    });
+    if(localStorage.user_id != currentSessionRef.key()) {
+      currentUserRef = currentSessionRef.child("users").push();
+      currentUserRef.set({
+        name: person
+      });
+    }
 
     // Get Questions
     currentSessionRef.child("questions").on("child_added", function(snapshot) {
@@ -154,6 +160,9 @@ function setSession(id, name, creator) {
       li.appendChild(a);
       li.appendChild(p);
     });
+
+    // Store last chatroom visited
+    localStorage.user_id = currentSessionRef.key();
 
     // Set the style to be that of when you're viewing a session.
     document.getElementById("backButton").style.display = 'inline';
