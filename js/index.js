@@ -8,7 +8,7 @@ function init() {
 
   firebaseRef.on("child_added", function(snapshot) {
     var session = snapshot.val();
-    console.log("ID: " + session.id);
+    console.log("ID: " + snapshot.key());
     console.log("Name: " + session.name);
     console.log("Creator: " + session.creator);
 
@@ -17,7 +17,7 @@ function init() {
 
     var a = document.createElement("a");
     a.appendChild(document.createTextNode("Session : " + session.name));
-    a.setAttribute("href", "javascript:setSession("+ session.id +")");
+    a.setAttribute("href", "javascript:setSession("+ snapshot.key() + ")");
 
     li.appendChild(a);
     ul.appendChild(li);
@@ -27,12 +27,24 @@ function init() {
   });
 }
 
-function addASession(name, creator) {
+function openAddSession() {
+  document.getElementById("addSessionContainer").style.display = 'inline';
+}
+
+function addSession(form) {
+  // If session is null, the user pressed cancel.
   var firebaseRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/");
   var newSessionRef = firebaseRef.push();
 
   newSessionRef.set({
-    name: name,
-    creator: creator
+    name: form.name.value,
+    creator: form.creator.value
   });
+
+  document.getElementById("addSessionContainer").style.display = 'gone';
+}
+
+function setSession(id, name, creator) {
+  var firebaseRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/" + id);
+
 }
