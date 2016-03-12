@@ -6,58 +6,82 @@ window.onload = function() {
 };
 
 function init() {
+  // Create connection to our FireBase server
   var firebaseRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/");
+  // Initialize the number of available sessions to 0
   var numOfSessions = 0;
 
+  // Triggers for each child retrieved and will trigger again for every child added
   firebaseRef.on("child_added", function(snapshot) {
+    // Stores the value of the snapshot retrieved, named session because what was retrieved
+    // is the details about said session (id, name, creator)
     var session = snapshot.val();
+
+    /* Unnecessary logging for testing, I assume.
     console.log("ID: " + snapshot.key());
     console.log("Name: " + session.name);
     console.log("Creator: " + session.creator);
+    */
 
+    // Finding the session list and creating the blank session elements
     var ul = document.getElementById("sessionsList");
     var li = document.createElement("li");
 
+    // Create a link
     var a = document.createElement("a");
+    // Set the title of the link to the name of the session
     a.appendChild(document.createTextNode(session.name));
+    // Set the reference of the link to that of the session
     a.setAttribute("href", "javascript:setSession(\"" + snapshot.key() + "\", \"" + session.name + "\", \"" + session.creator + "\")");
 
+    // Append the link to the list element and then append that list element to the greater list
     li.appendChild(a);
     ul.appendChild(li);
 
+    // Increment the number of sessions
     numOfSessions = numOfSessions + 1;
+    // Change the title displaying the number of sessions
     document.getElementById("sessionsCount").innerHTML = "There are " + numOfSessions + " Sessions."
   });
 }
 
+// Function to hide elements when creating a new session
 function openAddSession() {
   document.getElementById("addSessionButton").style.display = 'none';
   document.getElementById("indexContainer").style.display = 'none';
   document.getElementById("addSessionContainer").style.display = 'inline';
 }
 
+// Accepts a form containing fields for the session name and it's creator as it's parameter
 function addSession(form) {
   // If session is null, the user pressed cancel.
   if (form != null && form.name != null && form.creator != null) {
+    // If form was true and filled, create new connection to FireBase
     var firebaseRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/");
+    // Create new session
     var newSessionRef = firebaseRef.push();
 
+    // Set children of the new session equal to the form fields
     newSessionRef.set({
       name: form.name.value,
       creator: form.creator.value
     });
   }
 
+  // Display the previously hidden elements when the form was opened.
   document.getElementById("addSessionButton").style.display = 'inline';
   document.getElementById("indexContainer").style.display = 'inline';
   document.getElementById("addSessionContainer").style.display = 'none';
 }
 
+// Leaving a session and returning to the 'main menu' so to speak
 function closeSession() {
+  // Sets session and user references to null since we left.
   currentSessionRef = null;
   currentUserRef = null;
+  // Delete all questions off the page.
   document.getElementById("questionsList").innerHTML = "";
-
+  // Return the 'main menu'
   document.getElementById("backButton").style.display = 'none';
   document.getElementById("sessionContainer").style.display = 'none';
   document.getElementById("addQuestionButton").style.display = 'none';
@@ -65,14 +89,17 @@ function closeSession() {
   document.getElementById("indexContainer").style.display = 'inline';
 }
 
+// Function called when clicking on a session to view it.
 function setSession(id, name, creator) {
 
-  // GET USERNAME FOR PERSON //
+  // Ask person to enter their name
   var person = prompt("Please enter your name", "Harry Potter");
 
+  // As long as the user entered a name
   if (person != null){
+    // Create connection to FireBase for the specific session
     currentSessionRef = new Firebase("https://burning-heat-1866.firebaseio.com/sessions/" + id);
-
+    // Set the respective name and creator texts to their elements
     document.getElementById("sessionTitle").innerHTML = name;
     document.getElementById("sessionCreator").innerHTML = creator;
 
