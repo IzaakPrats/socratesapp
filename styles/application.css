@@ -5,3 +5,7 @@
 #sessionContainer {
   display: none;
 }
+
+#backButton {
+  display: none;
+}

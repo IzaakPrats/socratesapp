@@ -13,7 +13,8 @@
 <body>
 
   <h1 id="title">Socrates App <h1>
-  <a href="javascript:openAddSession()">Add a session</a>
+  <a id="addSessionButton" href="javascript:openAddSession()">Add a session</a>
+  <a id="backButton" href="javascript:closeSession()">Back to Session List</a>
 
   <div id="indexContainer">
     <h3 id="sessionsCount"> NOT CONNECTED TO FIREBASE </h3>
@@ -24,6 +25,7 @@
   </div>
 
   <div id="sessionContainer">
+    <h2 id="sessionTitle"></h2>
     <h4 id="sessionCreator"></h4>
 
     <ul id="questionsList">
@@ -36,7 +38,7 @@
       Enter something in the box: <br>
       <input type="text" name="name" value=""> <br>
       <input type="text" name="creator" value=""> <br>
-      <input type="button" name="button" value="Cancel" onClick="addSession(null)">
+      <input type="button" name="button" value="Cancel" onClick="addSession()">
       <input type="button" name="button" value="Create Session" onClick="addSession(this.form)">
     </form>
   </div>
