@@ -33,6 +33,16 @@ function init() {
     // Add the text and the script to run when the link is pressed.
     b.appendChild(document.createTextNode("Upvote this question"));
     b.setAttribute("href", "javascript:upvoteQuestion(\"" + snapshot.key() + "\")");
+    /*var newTH;
+    if(localStorage.user_elevation === "admin") {
+      newTH = document.createElement('th');
+      newTH.innerHTML = 'Hello, World!';
+      newTH.onclick = function () {
+          this.parentElement.removeChild(this);
+      };
+
+      table.appendChild(newTH);
+    }*/
 
     // Create a new paragraph element and populate it with the plain text of the question
     var p = document.createElement("p");
@@ -41,6 +51,7 @@ function init() {
     // Populate the list item with the link to upvote and the question, then populate the ul with the list item.
     li.appendChild(b);
     li.appendChild(p);
+    li.appendChild(btn);
 
     // Append the link to the list element and then append that list element to the greater list
     //li.appendChild(a);

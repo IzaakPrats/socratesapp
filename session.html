@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Socrates App</title>
+  <meta name="description" content="The Socrates App">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="styles/application.css">
+</head>
+
+<body>
+
+  <h1 id="title">Socrates App <h1>
+  <a id="addQuestionButton" href="javascript:openAddQuestion()">Add a question</a>
+
+  <div id="sessionContainer">
+    <ul id="questionsList">
+      <!-- Questions Go Here -->
+    </ul>
+  </div>
+
+  <div id="addQuestionContainer">
+    <form name="questionForm" action="" method="GET">
+      Enter your question in the box: <br>
+      <input type="text" name="text" value=""> <br>
+      <input type="button" name="button" value="Cancel" onClick="addQuestion()">
+      <input type="button" name="button" value="Add Question" onClick="addQuestion(this.form)">
+    </form>
+  </div>
+
+  <script src="js/firebase.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
