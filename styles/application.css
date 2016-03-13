@@ -2,18 +2,10 @@
   display: none;
 }
 
-#sessionContainer {
-  display: none;
-}
-
 #backButton {
   display: none;
 }
 
 #addQuestionContainer {
-  display: none;
-}
-
-#addQuestionButton {
   display: none;
 }
